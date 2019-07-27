@@ -1,0 +1,37 @@
+version: '3.7'
+
+services:
+  nginx:
+    build:
+      context: apps/project-nginx
+      dockerfile: ./docker/nginx/Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - project-backend
+    restart: unless-stopped
+
+  project-backend:
+    build:
+      context: ./apps/project-backend
+      dockerfile: ./docker/java/Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql-db
+    restart: unless-stopped
+
+  mysql-db:
+    image: mysql:latest
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - 3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=fj48fj49dj38f
+      - MYSQL_DATABASE=project
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
