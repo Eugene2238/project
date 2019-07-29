@@ -1,32 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql-deployment
+  name: mysql-db-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      component: mysql
+      component: mysql-db
   template:
     metadata:
       labels:
-        component: mysql
+        component: mysql-db
     spec:
       volumes:
-        - name: mysql-storage
+        - name: mysql-db-storage
           persistentVolumeClaim:
             claimName: database-persistent-volume-claim
       containers:
-        - name: mysql
+        - name: mysql-db
           image: mysql
           ports:
             - containerPort: 3306
+#          livenessProbe:
+#            tcpSocket:
+#              port: 3306
           volumeMounts:
-            - name: mysql-storage
+            - name: mysql-db-storage
               mountPath: /var/lib/mysql
           env:
             - name: MYSQL_DATABASE
-            - value: project
+              value: project
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:

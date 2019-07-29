@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: backend-deployment
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       component: backend
@@ -17,3 +17,9 @@ spec:
           image: eugene2238/project-backend
           ports:
             - containerPort: 8080
+          command:
+            - "java"
+            - "-Dspring.datasource.url=jdbc:mysql://mysql-db-cluster-ip-service:3306/project?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true&failOverReadOnly=false&maxReconnects=10"
+            - "-jar"
+            - "project-0.0.1-SNAPSHOT.war"
+
