@@ -12,11 +12,18 @@ spec:
       labels:
         component: backend
     spec:
+      volumes:
+        - name: uploads-storage
+          persistentVolumeClaim:
+            claimName: uploads-persistent-volume-claim
       containers:
         - name: backend
           image: eugene2238/project-backend
           ports:
             - containerPort: 8080
+          volumeMounts:
+            - name: uploads-storage
+              mountPath: /var/www/uploads
           command:
             - "java"
             - "-Dspring.datasource.url=jdbc:mysql://mysql-db-cluster-ip-service:3306/project?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true&failOverReadOnly=false&maxReconnects=10"
