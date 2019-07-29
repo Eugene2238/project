@@ -14,3 +14,11 @@ spec:
             backend:
               serviceName: backend-cluster-ip-service
               servicePort: 8080
+
+    - host: www.project.pro
+      http:
+        paths:
+          - path: /?(.*)
+            backend:
+              serviceName: backend-cluster-ip-service
+              servicePort: 8080
