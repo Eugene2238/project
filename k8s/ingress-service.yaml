@@ -7,7 +7,9 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   rules:
-    - host: project.pro
+    - host:
+        - project.pro
+        - www.project.pro
       http:
         paths:
           - path: /?(.*)
