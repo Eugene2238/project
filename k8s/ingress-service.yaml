@@ -5,17 +5,13 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      if ($host = 'www.project.pro' ) {
+        rewrite ^ https://project.pro$request_uri permanent;
+      }
 spec:
   rules:
     - host: project.pro
-      http:
-        paths:
-          - path: /?(.*)
-            backend:
-              serviceName: backend-cluster-ip-service
-              servicePort: 8080
-
-    - host: www.project.pro
       http:
         paths:
           - path: /?(.*)
